@@ -3,6 +3,7 @@
 test:
 	go test ./...
 	go test -fuzz=Fuzz -fuzztime 5s ./stringtools
+	go test -fuzz=Fuzz -fuzztime 5s ./contexts
 
 lint:
 	golangci-lint run -c golangci-lint.yml
