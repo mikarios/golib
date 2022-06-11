@@ -1,7 +1,7 @@
 .PHONY: test lint lint118
 
 test:
-	go test ./...
+	go test -coverprofile="coverage.txt" -covermode=atomic -p 1 ./...
 	go test -fuzz=Fuzz -fuzztime 5s ./stringtools
 	go test -fuzz=Fuzz -fuzztime 5s ./contexts
 
