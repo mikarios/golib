@@ -1,10 +1,12 @@
-package stringtools
+package stringtools_test
 
 import (
 	"reflect"
 	"strings"
 	"testing"
 	"unicode/utf8"
+
+	"github.com/mikarios/golib/stringtools"
 )
 
 func TestSplitStringByLimit(t *testing.T) {
@@ -67,7 +69,7 @@ func TestSplitStringByLimit(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			if got := SplitStringByLimit(tt.args.value, tt.args.limit); !reflect.DeepEqual(got, tt.want) {
+			if got := stringtools.SplitStringByLimit(tt.args.value, tt.args.limit); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("SplitStringByLimit() = %v, want %v", got, tt.want)
 			}
 		})
@@ -86,7 +88,7 @@ func FuzzSplitStringByLimit(f *testing.F) {
 		if !utf8.ValidString(orig) {
 			return
 		}
-		split := SplitStringByLimit(orig, lim)
+		split := stringtools.SplitStringByLimit(orig, lim)
 		for _, part := range split {
 			// Can't use len(part) to take into consideration non utf characters. This way we count how many runes are in each
 			// part and not how many bytes it is.

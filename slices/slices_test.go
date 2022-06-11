@@ -1,8 +1,10 @@
-package slices
+package slices_test
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/mikarios/golib/slices"
 )
 
 func TestStringContains(t *testing.T) {
@@ -49,7 +51,7 @@ func TestStringContains(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			if got := Contains(tt.args.lst, tt.args.elem); got != tt.want {
+			if got := slices.Contains(tt.args.lst, tt.args.elem); got != tt.want {
 				t.Errorf("Contains() = %v, want %v", got, tt.want)
 			}
 		})
@@ -100,7 +102,7 @@ func TestIntContains(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			if got := Contains(tt.args.lst, tt.args.elem); got != tt.want {
+			if got := slices.Contains(tt.args.lst, tt.args.elem); got != tt.want {
 				t.Errorf("Contains() = %v, want %v", got, tt.want)
 			}
 		})
@@ -167,7 +169,7 @@ func TestSubtractStringSlice(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			if got := SubtractSlice(tt.args.a, tt.args.b); !reflect.DeepEqual(got, tt.want) {
+			if got := slices.SubtractSlice(tt.args.a, tt.args.b); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("SubtractSlice() = %v, want %v", got, tt.want)
 			}
 		})
@@ -234,7 +236,7 @@ func TestSubtractIntSlice(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			if got := SubtractSlice(tt.args.a, tt.args.b); !reflect.DeepEqual(got, tt.want) {
+			if got := slices.SubtractSlice(tt.args.a, tt.args.b); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("SubtractSlice() = %v, want %v", got, tt.want)
 			}
 		})
