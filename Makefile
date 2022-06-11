@@ -1,4 +1,4 @@
-.PHONY: test
+.PHONY: test lint lint118
 
 test:
 	go test ./...
