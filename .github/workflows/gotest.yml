@@ -1,14 +1,13 @@
 name: tests
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push,pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v3
 
@@ -22,3 +21,7 @@ jobs:
 
       - name: Test
         run: make test
+
+      - name: Upload coverage to Codecov
+        if: success() && matrix.os == 'ubuntu-latest'
+        uses: codecov/codecov-action@v3.1.0
