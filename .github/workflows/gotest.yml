@@ -21,5 +21,8 @@ jobs:
     - name: Install dependencies
       run: make
 
+    - name: Vendor
+      run: go mod vendor
+
     - name: Test
       run: make test
