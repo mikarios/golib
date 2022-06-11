@@ -4,7 +4,6 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-	"unicode/utf8"
 
 	"github.com/mikarios/golib/stringtools"
 )
@@ -85,9 +84,6 @@ func FuzzSplitStringByLimit(f *testing.F) {
 	}
 
 	f.Fuzz(func(t *testing.T, orig string, lim int) {
-		if !utf8.ValidString(orig) {
-			return
-		}
 		split := stringtools.SplitStringByLimit(orig, lim)
 		for _, part := range split {
 			// Can't use len(part) to take into consideration non utf characters. This way we count how many runes are in each
