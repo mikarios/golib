@@ -66,10 +66,14 @@ linters:
     - golint
     - gomnd
     - dupl
-    - ireturn
     - nlreturn
     - varnamelen
-    - testpackage
+    - ireturn
+    - exhaustive
+    - errchkjson
+    - nonamedreturns
+    - exhaustruct
+    - execinquery
 
 run:
   skip-files:
