@@ -2,6 +2,7 @@ package handler_test
 
 import (
 	"errors"
+	"net/url"
 	"reflect"
 	"strings"
 	"testing"
@@ -50,6 +51,226 @@ func TestGetQueryParamInt(t *testing.T) {
 			t.Parallel()
 
 			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", 0)
+			if err != nil {
+				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
+					t.Errorf("getQueryParamInt() = got error = %v, want %v", err, tt.wantErr)
+				}
+
+				return
+			}
+
+			if got != tt.want {
+				t.Errorf("getQueryParamInt() = got %v, want %v", got, tt.want)
+				return
+			}
+		})
+	}
+}
+
+func TestGetQueryParamIntMapArray(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		params map[string][]string
+		key    string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    int
+		wantErr error
+	}{
+		{
+			name:    "Valid key and type",
+			args:    args{key: "key", params: map[string][]string{"key": {"2"}}},
+			want:    2,
+			wantErr: nil,
+		},
+		{
+			name:    "Invalid key",
+			args:    args{key: "key-invalid", params: map[string][]string{"key": {"2"}}},
+			wantErr: handler.ErrParamNotFound,
+		},
+		{
+			name:    "Invalid param type (string)",
+			args:    args{key: "key", params: map[string][]string{"key": {"param"}}},
+			wantErr: handler.ErrConversion,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", 0)
+			if err != nil {
+				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
+					t.Errorf("getQueryParamInt() = got error = %v, want %v", err, tt.wantErr)
+				}
+
+				return
+			}
+
+			if got != tt.want {
+				t.Errorf("getQueryParamInt() = got %v, want %v", got, tt.want)
+				return
+			}
+		})
+	}
+}
+
+func TestGetQueryParamIntURLValues(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		params url.Values
+		key    string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    int
+		wantErr error
+	}{
+		{
+			name:    "Valid key and type",
+			args:    args{key: "key", params: map[string][]string{"key": {"2"}}},
+			want:    2,
+			wantErr: nil,
+		},
+		{
+			name:    "Invalid key",
+			args:    args{key: "key-invalid", params: map[string][]string{"key": {"2"}}},
+			wantErr: handler.ErrParamNotFound,
+		},
+		{
+			name:    "Invalid param type (string)",
+			args:    args{key: "key", params: map[string][]string{"key": {"param"}}},
+			wantErr: handler.ErrConversion,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", 0)
+			if err != nil {
+				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
+					t.Errorf("getQueryParamInt() = got error = %v, want %v", err, tt.wantErr)
+				}
+
+				return
+			}
+
+			if got != tt.want {
+				t.Errorf("getQueryParamInt() = got %v, want %v", got, tt.want)
+				return
+			}
+		})
+	}
+}
+
+func TestGetQueryParamInt64(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		params map[string]string
+		key    string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    int64
+		wantErr error
+	}{
+		{
+			name:    "Valid key and type",
+			args:    args{key: "key", params: map[string]string{"key": "2"}},
+			want:    2,
+			wantErr: nil,
+		},
+		{
+			name:    "Invalid key",
+			args:    args{key: "key-invalid", params: map[string]string{"key": "2"}},
+			wantErr: handler.ErrParamNotFound,
+		},
+		{
+			name:    "Invalid param type (string)",
+			args:    args{key: "key", params: map[string]string{"key": "param"}},
+			wantErr: handler.ErrConversion,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", int64(0))
+			if err != nil {
+				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
+					t.Errorf("getQueryParamInt() = got error = %v, want %v", err, tt.wantErr)
+				}
+
+				return
+			}
+
+			if got != tt.want {
+				t.Errorf("getQueryParamInt() = got %v, want %v", got, tt.want)
+				return
+			}
+		})
+	}
+}
+
+func TestGetQueryParamInt32(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		params map[string]string
+		key    string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    int32
+		wantErr error
+	}{
+		{
+			name:    "Valid key and type",
+			args:    args{key: "key", params: map[string]string{"key": "2"}},
+			want:    2,
+			wantErr: nil,
+		},
+		{
+			name:    "Invalid key",
+			args:    args{key: "key-invalid", params: map[string]string{"key": "2"}},
+			wantErr: handler.ErrParamNotFound,
+		},
+		{
+			name:    "Invalid param type (string)",
+			args:    args{key: "key", params: map[string]string{"key": "param"}},
+			wantErr: handler.ErrConversion,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", int32(0))
 			if err != nil {
 				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
 					t.Errorf("getQueryParamInt() = got error = %v, want %v", err, tt.wantErr)
@@ -170,6 +391,172 @@ func TestGetQueryParamSliceInt32(t *testing.T) {
 			}
 
 			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("getQueryParamInt() = got %v, want %v", got, tt.want)
+				return
+			}
+		})
+	}
+}
+
+func TestGetQueryParamSliceInt64(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		params    map[string]string
+		key       string
+		separator string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    []int64
+		wantErr error
+	}{
+		{
+			name:    "Valid key and type",
+			args:    args{key: "key", params: map[string]string{"key": "1,2"}, separator: ","},
+			want:    []int64{1, 2},
+			wantErr: nil,
+		},
+		{
+			name:    "Invalid key",
+			args:    args{key: "key-invalid", params: map[string]string{"key": "2"}, separator: ","},
+			wantErr: handler.ErrParamNotFound,
+		},
+		{
+			name:    "Invalid param type (string)",
+			args:    args{key: "key", params: map[string]string{"key": "param"}, separator: ","},
+			wantErr: handler.ErrConversion,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, tt.args.separator, []int64{})
+			if err != nil {
+				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
+					t.Errorf("getQueryParamInt() = got error = %v, want %v", err, tt.wantErr)
+				}
+
+				return
+			}
+
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("getQueryParamInt() = got %v, want %v", got, tt.want)
+				return
+			}
+		})
+	}
+}
+
+func TestGetQueryParamUint(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		params map[string]string
+		key    string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    uint
+		wantErr error
+	}{
+		{
+			name:    "Valid key and type",
+			args:    args{key: "key", params: map[string]string{"key": "2"}},
+			want:    2,
+			wantErr: nil,
+		},
+		{
+			name:    "Invalid key",
+			args:    args{key: "key-invalid", params: map[string]string{"key": "2"}},
+			wantErr: handler.ErrParamNotFound,
+		},
+		{
+			name:    "Invalid param type (string)",
+			args:    args{key: "key", params: map[string]string{"key": "param"}},
+			wantErr: handler.ErrConversion,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", uint(0))
+			if err != nil {
+				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
+					t.Errorf("getQueryParamInt() = got error = %v, want %v", err, tt.wantErr)
+				}
+
+				return
+			}
+
+			if got != tt.want {
+				t.Errorf("getQueryParamInt() = got %v, want %v", got, tt.want)
+				return
+			}
+		})
+	}
+}
+
+func TestGetQueryParamUInt32(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		params map[string]string
+		key    string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    uint32
+		wantErr error
+	}{
+		{
+			name:    "Valid key and type",
+			args:    args{key: "key", params: map[string]string{"key": "2"}},
+			want:    2,
+			wantErr: nil,
+		},
+		{
+			name:    "Invalid key",
+			args:    args{key: "key-invalid", params: map[string]string{"key": "2"}},
+			wantErr: handler.ErrParamNotFound,
+		},
+		{
+			name:    "Invalid param type (string)",
+			args:    args{key: "key", params: map[string]string{"key": "param"}},
+			wantErr: handler.ErrConversion,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", uint32(0))
+			if err != nil {
+				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
+					t.Errorf("getQueryParamInt() = got error = %v, want %v", err, tt.wantErr)
+				}
+
+				return
+			}
+
+			if got != tt.want {
 				t.Errorf("getQueryParamInt() = got %v, want %v", got, tt.want)
 				return
 			}
@@ -333,7 +720,7 @@ func TestGetQueryParamSliceString(t *testing.T) {
 	}
 }
 
-func TestGetQueryParamFloat(t *testing.T) {
+func TestGetQueryParamFloat64(t *testing.T) {
 	t.Parallel()
 
 	type args struct {
@@ -372,6 +759,61 @@ func TestGetQueryParamFloat(t *testing.T) {
 			t.Parallel()
 
 			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", float64(0))
+			if err != nil {
+				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
+					t.Errorf("getQueryParamFloat() = got error = %v, want %v", err, tt.wantErr)
+				}
+
+				return
+			}
+
+			if got != tt.want {
+				t.Errorf("getQueryParamFloat() = got %v, want %v", got, tt.want)
+				return
+			}
+		})
+	}
+}
+
+func TestGetQueryParamFloat32(t *testing.T) {
+	t.Parallel()
+
+	type args struct {
+		params map[string]string
+		key    string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		want    float32
+		wantErr error
+	}{
+		{
+			name:    "Valid key and type",
+			args:    args{key: "key", params: map[string]string{"key": "3.14159"}},
+			want:    3.14159,
+			wantErr: nil,
+		},
+		{
+			name:    "Invalid key",
+			args:    args{key: "key-invalid", params: map[string]string{"key": "3.14159"}},
+			wantErr: handler.ErrParamNotFound,
+		},
+		{
+			name:    "Invalid param type (string)",
+			args:    args{key: "key", params: map[string]string{"key": "param"}},
+			wantErr: handler.ErrConversion,
+		},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			got, err := handler.GetRequestParam(tt.args.params, tt.args.key, "", float32(0))
 			if err != nil {
 				if (tt.wantErr == nil) || (tt.wantErr != nil && !errors.Is(err, tt.wantErr)) {
 					t.Errorf("getQueryParamFloat() = got error = %v, want %v", err, tt.wantErr)

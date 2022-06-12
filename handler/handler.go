@@ -170,6 +170,7 @@ func getParameter[P parameters](params P, key string) (param string, err error) 
 	case map[string][]string:
 		if _, ok = a[key]; !ok || len(a[key]) == 0 {
 			ok = false
+			break
 		}
 
 		param = a[key][0]
