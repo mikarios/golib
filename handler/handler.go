@@ -82,9 +82,9 @@ func GetRequestParam[P parameters, T returnType](params P, key, separator string
 
 		if v > math.MaxUint {
 			return defaultValue, fmt.Errorf(
-				"%w: cannot convert uint64 to uint. Out of bounds maxUInt: %v, Value: %v",
+				"%w: cannot convert uint64 to uint. Out of bounds maxUInt: %+v, Value: %v",
 				ErrConversion,
-				math.MaxUint,
+				uint64(math.MaxUint),
 				v,
 			)
 		}
