@@ -1,9 +1,9 @@
 package slices
 
-// Contains checks whether a list of comparables contains a target value.
-func Contains[T comparable](lst []T, elem T) bool {
-	for i := range lst {
-		if lst[i] == elem {
+// Contains checks whether a slice of comparables contains a target value.
+func Contains[T comparable](slice []T, elem T) bool {
+	for i := range slice {
+		if slice[i] == elem {
 			return true
 		}
 	}
