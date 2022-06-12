@@ -3,6 +3,7 @@ package handler
 import (
 	"errors"
 	"fmt"
+	"math"
 	"net/url"
 	"strconv"
 	"strings"
@@ -56,6 +57,15 @@ func GetRequestParam[P parameters, T returnType](params P, key, separator string
 			return defaultValue, fmt.Errorf("int: %v error %v: %w", param, err, ErrConversion)
 		}
 
+		if v > math.MaxInt {
+			return defaultValue, fmt.Errorf(
+				"%w: cannot convert int64 to int. Out of bounds maxInt: %v, Value: %v",
+				ErrConversion,
+				math.MaxInt,
+				v,
+			)
+		}
+
 		*p = int(v)
 	case *int32:
 		v, err := strconv.ParseInt(param, 10, 32)
@@ -68,6 +78,15 @@ func GetRequestParam[P parameters, T returnType](params P, key, separator string
 		v, err := strconv.ParseUint(param, 10, 64)
 		if err != nil {
 			return defaultValue, fmt.Errorf("uint: %v error %v: %w", param, err, ErrConversion)
+		}
+
+		if v > math.MaxUint {
+			return defaultValue, fmt.Errorf(
+				"%w: cannot convert uint64 to uint. Out of bounds maxUInt: %v, Value: %v",
+				ErrConversion,
+				math.MaxUint,
+				v,
+			)
 		}
 
 		*p = uint(v)
@@ -125,6 +144,15 @@ func GetRequestParam[P parameters, T returnType](params P, key, separator string
 			i64, err := strconv.ParseInt(values[i], 10, 64)
 			if err != nil {
 				return defaultValue, fmt.Errorf("%w: cannot convert value: %v to []int", ErrConversion, param)
+			}
+
+			if i64 > math.MaxInt {
+				return defaultValue, fmt.Errorf(
+					"%w: cannot convert int64 to int. Out of bounds maxInt: %v, Value: %v",
+					ErrConversion,
+					math.MaxInt,
+					i64,
+				)
 			}
 
 			valuesInt[i] = int(i64)
