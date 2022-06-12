@@ -34,7 +34,7 @@ holds common functions for strings
 
 ----
 
-<p style="text-align: center">
+<p align="center">
 <a style="text-decoration: none" href="go.mod">
     <img src="https://img.shields.io/github/go-mod/go-version/mikarios/golib?style=plastic" alt="Go version">
 </a>
