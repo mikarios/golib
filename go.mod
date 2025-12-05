@@ -6,7 +6,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/mxschmitt/golang-combinations v1.1.0
-	github.com/sirupsen/logrus v1.8.1
+	github.com/sirupsen/logrus v1.8.3
 	github.com/streadway/amqp v1.0.0
 )
 
